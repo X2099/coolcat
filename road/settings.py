@@ -1,6 +1,9 @@
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# 把apps目录加入python导包路径
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 
@@ -15,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -50,8 +54,12 @@ WSGI_APPLICATION = 'road.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'road',
+        'USER': 'moon',
+        'PASSWORD': 'identified',
+        'HOST': '39.107.121.208',
+        'PORT': 3306,
     }
 }
 
@@ -81,3 +89,5 @@ USE_L10N = True
 USE_TZ = False
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'users.User'
