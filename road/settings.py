@@ -99,3 +99,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',  # 自动生成接口文档
 }
+
+# django发送邮件配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # 指定邮件后端
+# EMAIL_USR_SSL = True
+EMAIL_HOST = 'smtp.163.com'  # 发邮件主机
+EMAIL_PORT = 25  # 发邮件端口
+EMAIL_HOST_USER = 'moonpython@163.com'  # 授权的邮箱
+EMAIL_HOST_PASSWORD = 'L729123265'  # 邮箱授权时获得的密码
+DEFAULT_FROM_EMAIL = "moonpython@163.com"  # 发件人抬头
+SERVER_EMAIL = 'moon'
