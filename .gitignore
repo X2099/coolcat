@@ -1,4 +1,4 @@
-# 忽略Pycharm生成的文件
+# 忽略文件和目录
 .idea/
-**/*.pyc
-**/__pycache__/
+__pycache__/
+*.py[cod]

@@ -64,6 +64,17 @@ DATABASES = {
     }
 }
 
+# 缓存配置
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://:foobared@39.107.121.208:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -95,17 +106,17 @@ AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny',
+
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',  # 自动生成接口文档
 }
 
-# django发送邮件配置
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # 指定邮件后端
-# EMAIL_USR_SSL = True
-EMAIL_HOST = 'smtp.163.com'  # 发邮件主机
-EMAIL_PORT = 25  # 发邮件端口
-EMAIL_HOST_USER = 'moonpython@163.com'  # 授权的邮箱
-EMAIL_HOST_PASSWORD = 'L729123265'  # 邮箱授权时获得的密码
-DEFAULT_FROM_EMAIL = "moonpython@163.com"  # 发件人抬头
-SERVER_EMAIL = 'moon'
+# 发送邮件配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'moonpython@163.com'
+EMAIL_HOST_PASSWORD = 'L729123265'
+DEFAULT_FROM_EMAIL = '大道至简<moonpython@163.com>'

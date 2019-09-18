@@ -9,7 +9,6 @@ itypes==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
 mysqlclient==1.4.4
-public==2019.4.13
 pytz==2019.2
 requests==2.22.0
 sqlparse==0.3.0
