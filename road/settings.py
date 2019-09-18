@@ -105,9 +105,12 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.BasicAuthentication',  # 基本认证
+        'rest_framework.authentication.SessionAuthentication',  # session认证
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',  # 自动生成接口文档
 }
@@ -119,4 +122,4 @@ EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'moonpython@163.com'
 EMAIL_HOST_PASSWORD = 'L729123265'
-DEFAULT_FROM_EMAIL = '大道至简<moonpython@163.com>'
+DEFAULT_FROM_EMAIL = 'road博客<moonpython@163.com>'

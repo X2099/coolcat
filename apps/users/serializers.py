@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -20,12 +22,18 @@ class UserRegSerializer(serializers.ModelSerializer):
                                      validators=[UniqueValidator(queryset=User.objects.all(), message="用户名已经存在")],
                                      help_text="用户名")
     password = serializers.CharField(write_only=True, help_text="密码")
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all(), message="该邮箱已经注册")],
+                                   help_text="邮箱")
 
     def validate_code(self, code):
-        if code == '888888':
-            return code
+        verify_code = cache.get(self.initial_data.get('email'))
+        if verify_code:
+            if code == verify_code:
+                return code
+            else:
+                raise serializers.ValidationError("验证码错误，请重试")
         else:
-            raise serializers.ValidationError("验证码错误")
+            raise serializers.ValidationError("验证码已过期，请重新发送")
 
     def validate(self, attrs):
         del attrs['code']
@@ -33,4 +41,10 @@ class UserRegSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'code']
+        fields = ['username', 'password', 'code', 'email']
+
+    def create(self, validated_data):
+        user = User.objects.create(username=validated_data['username'],
+                                   password=make_password(validated_data['password']),
+                                   email=validated_data['email'])
+        return user
