@@ -111,7 +111,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',  # session认证
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',  # 自动生成接口文档
 }
