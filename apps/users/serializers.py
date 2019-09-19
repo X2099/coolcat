@@ -26,8 +26,10 @@ class UserRegSerializer(serializers.ModelSerializer):
                                    help_text="邮箱")
 
     def validate_code(self, code):
-        verify_code = cache.get(self.initial_data.get('email'))
+        email = self.initial_data.get('email')
+        verify_code = cache.get(email)
         if verify_code:
+            cache.delete(email)
             if code == verify_code:
                 return code
             else:
