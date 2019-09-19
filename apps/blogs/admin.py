@@ -13,7 +13,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 class CategoryAdmin(admin.ModelAdmin):
     """文章分类管理"""
-    list_display = ('name', 'id', 'owner')
+    list_display = ('name', 'id', 'parent', 'owner')
     list_filter = ('owner',)
 
 

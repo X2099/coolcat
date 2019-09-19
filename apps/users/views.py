@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model, login, logout
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.conf import settings
-from django.utils.timezone import now
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.response import Response
@@ -79,11 +78,12 @@ class UserAuthViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         if user is None:
             return Response({'msg': "没有此用户"}, status=status.HTTP_400_BAD_REQUEST)
         if user.check_password(password):
-            login(request, user)
-            user.last_login_time = now()
-            user.save()
-            serializer = self.get_serializer_class()(user)
-            return Response(serializer.data)
+            if user.is_active == True:
+                login(request, user)
+                serializer = self.get_serializer_class()(user)
+                return Response(serializer.data)
+            else:
+                return Response({'msg': "改用户已被暂停服务"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'msg': "密码错误"}, status=status.HTTP_400_BAD_REQUEST)
 
