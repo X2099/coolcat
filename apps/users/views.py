@@ -81,7 +81,9 @@ class UserAuthViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             if user.is_active == True:
                 login(request, user)
                 serializer = self.get_serializer_class()(user)
-                return Response(serializer.data)
+                return Response(serializer.data, headers={'Access-Control-Expose-Headers': 'Set-Cookie',
+                                                          'Access-Control-Allow-Credentials': True,
+                                                          'Access-Control-Allow-Origin': request.META.get('HTTP_ORIGIN')})
             else:
                 return Response({'msg': "该用户已被暂停服务"}, status=status.HTTP_400_BAD_REQUEST)
         else:
