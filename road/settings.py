@@ -10,6 +10,12 @@ SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# 跨域请求白名单
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:8080',
+    'http://localhost:8080'
+)
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -18,12 +24,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',  # 支持跨域请求
     'rest_framework',
     'users.apps.UsersConfig',
     'blogs.apps.BlogsConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # 支持跨域请求
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

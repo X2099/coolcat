@@ -83,7 +83,7 @@ class UserAuthViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 serializer = self.get_serializer_class()(user)
                 return Response(serializer.data)
             else:
-                return Response({'msg': "改用户已被暂停服务"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'msg': "该用户已被暂停服务"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'msg': "密码错误"}, status=status.HTTP_400_BAD_REQUEST)
 
