@@ -41,7 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'road.urls'
+ROOT_URLCONF = 'RoadBlog.urls'
 
 TEMPLATES = [
     {
@@ -60,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'road.wsgi.application'
+WSGI_APPLICATION = 'RoadBlog.wsgi.application'
 
 DATABASES = {
     'default': {
