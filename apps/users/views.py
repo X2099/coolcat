@@ -69,27 +69,19 @@ class UserAuthViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             return Response({'msg': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(methods=['POST'], detail=False)
-    def login(self, request):
+    def check(self, request):
+        """检查用户名或邮箱是否已经注册"""
         username = request.data.get('username')
-        password = request.data.get('password')
-        if not all([username, password]):
-            return Response({'msg': "缺少参数"}, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.filter(username=username).first()
-        if user is None:
-            return Response({'msg': "没有此用户"}, status=status.HTTP_400_BAD_REQUEST)
-        if user.check_password(password):
-            if user.is_active == True:
-                login(request, user)
-                serializer = self.get_serializer_class()(user)
-                return Response(serializer.data, headers={'Access-Control-Expose-Headers': 'Set-Cookie',
-                                                          'Access-Control-Allow-Credentials': True,
-                                                          'Access-Control-Allow-Origin': request.META.get('HTTP_ORIGIN')})
+        email = request.data.get('email')
+        if username:
+            if User.objects.filter(username=username).exists():
+                return Response({'msg': "该用户名已经注册"}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({'msg': "该用户已被暂停服务"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'msg': "OK"})
+        elif email:
+            if User.objects.filter(email=email).exists():
+                return Response({'msg': "该邮箱已经注册"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({'msg': "OK"})
         else:
-            return Response({'msg': "密码错误"}, status=status.HTTP_400_BAD_REQUEST)
-
-    @action(methods=['POST'], detail=False)
-    def logout(self, request):
-        logout(request)
-        return Response({'msg': "登出成功"})
+            return Response({'msg': "缺少参数"}, status=status.HTTP_403_FORBIDDEN)

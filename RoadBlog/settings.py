@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 
@@ -17,7 +18,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,7 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users.apps.UsersConfig',
     'blogs.apps.BlogsConfig',
-]
+)
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # 支持跨域请求
@@ -115,6 +116,7 @@ AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # jwt认证
         # 'rest_framework.authentication.BasicAuthentication',  # 基本认证
         'rest_framework.authentication.SessionAuthentication',  # session认证
     ),
@@ -122,6 +124,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',  # 自动生成接口文档
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),  # jwt有效期
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler'  # 获取jwt载荷数据
 }
 
 # 发送邮件配置
