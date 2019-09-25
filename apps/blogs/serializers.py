@@ -7,7 +7,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'name', 'parent']
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = ['id', 'name']
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -23,4 +23,4 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = '__all__'
+        fields = ['title', 'body', 'pub_time', 'author', 'category', 'tags']

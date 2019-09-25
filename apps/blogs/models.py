@@ -8,7 +8,7 @@ class BaseModel(models.Model):
     """
     基础抽象类
     """
-    create_time = models.DateTimeField(auto_created=True, verbose_name="创建时间")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
 
     class Meta:
