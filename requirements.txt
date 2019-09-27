@@ -12,6 +12,7 @@ itypes==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
 mysqlclient==1.4.4
+Pillow==6.1.0
 PyJWT==1.7.1
 pytz==2019.2
 redis==3.3.8

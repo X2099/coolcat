@@ -8,7 +8,7 @@ class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
 
     def get_queryset(self):
-        return Category.objects.filter(owner=self.request.user)
+        return Category.objects.filter(owner=self.request.user, parent=None)
 
 
 class TagViewSet(ModelViewSet):

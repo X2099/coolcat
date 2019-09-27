@@ -21,6 +21,7 @@ class Article(BaseModel):
     """
     title = models.CharField(max_length=200, verbose_name="标题")
     body = models.TextField(verbose_name="正文")
+    cover_image = models.ImageField(null=True, blank=True, verbose_name="封面图片")
     pub_time = models.DateTimeField(null=True, blank=True, verbose_name="发布时间")
     status = models.CharField(max_length=1, choices=(('d', "草稿"), ('p', "发布")), default='p', verbose_name="文章状态")
     commit_status = models.BooleanField(default=True, verbose_name="是否可以评论")
@@ -46,7 +47,7 @@ class Category(BaseModel):
     文章分类
     """
     name = models.CharField(max_length=40, verbose_name="分类名称")
-    parent = models.ForeignKey(to='self', null=True, blank=True, on_delete=models.CASCADE, verbose_name="父级分类")
+    parent = models.ForeignKey(to='self', related_name='subs', null=True, blank=True, on_delete=models.CASCADE, verbose_name="父级分类")
     owner = models.ForeignKey(User, related_name='categories', on_delete=models.CASCADE, verbose_name="所属作者")
 
     def __str__(self):
