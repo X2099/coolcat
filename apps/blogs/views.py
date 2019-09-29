@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from .models import Article, Category, Tag
-from .serializers import ArticleSerializer, CategorySerializer, TagSerializer
+from .serializers import ArticleCreateSerializer, ArticleListSerializer, ArticleDetailSerializer, \
+    CategorySerializer, TagSerializer
 
 
 class CategoryViewSet(ModelViewSet):
@@ -21,22 +22,42 @@ class TagViewSet(ModelViewSet):
 
 class ArticleViewSet(ModelViewSet):
     """文章"""
-    serializer_class = ArticleSerializer
+    serializer_class = ArticleCreateSerializer
     queryset = Article.objects.all()
 
     def get_queryset(self):
+        """
+        根据不同的请求方式分别获取queryset
+        """
         if self.action == 'list' or self.action == 'retrieve':
             return Article.objects.all()
         else:
             return Article.objects.filter(author=self.request.user)
 
+    def get_serializer_class(self):
+        """
+        根据不同的请求方式获取不同的serializer_class
+        """
+        if self.action == 'list':
+            return ArticleListSerializer
+        elif self.action == 'retrieve':
+            return ArticleDetailSerializer
+        else:
+            return ArticleCreateSerializer
+
     def get_authenticators(self):
+        """
+        根据不同的请求方式获取不同的认证权限
+        """
         if self.request.method == 'GET':
             return []
         else:
             return [auth() for auth in self.authentication_classes]
 
     def get_permissions(self):
+        """
+        根据不同的请求方式获取不同的认证权限
+        """
         if self.action == 'list' or self.action == 'retrieve':
             return []
         else:

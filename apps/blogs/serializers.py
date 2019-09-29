@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Article, Category, Tag
+from users.models import User
 
 
 class CategorySubSerializer(serializers.ModelSerializer):
@@ -31,8 +32,54 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'owner')
 
 
-class ArticleSerializer(serializers.ModelSerializer):
-    """文章序列化类"""
+class ArticleCreateSerializer(serializers.ModelSerializer):
+    """创建文章序列化类"""
+
+    class Meta:
+        model = Article
+        fields = ('title', 'body', 'pub_time', 'author', 'category', 'tags')
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    """文章作者序列化类"""
+
+    class Meta:
+        model = User
+        fields = ('id', 'username')
+
+
+class CategoryArticleSerializer(serializers.ModelSerializer):
+    """文章所属类序列化类"""
+
+    class Meta:
+        model = Category
+        fields = ('name',)
+
+
+class TagArticleSerializer(serializers.ModelSerializer):
+    """文章标签序列化类"""
+
+    class Meta:
+        model = Tag
+        fields = ('name',)
+
+
+class ArticleListSerializer(serializers.ModelSerializer):
+    """文章列表序列化类"""
+    author = AuthorSerializer()
+    category = CategoryArticleSerializer()
+    tags = TagArticleSerializer(many=True)
+
+    class Meta:
+        model = Article
+        fields = ('title', 'pub_time', 'author', 'category', 'tags')
+
+
+class ArticleDetailSerializer(serializers.ModelSerializer):
+    """文章详情序列化类"""
+    author = AuthorSerializer()
+    category = CategoryArticleSerializer()
+    tags = TagArticleSerializer(many=True)
 
     class Meta:
         model = Article
