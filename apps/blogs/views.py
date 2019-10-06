@@ -31,7 +31,7 @@ class TagViewSet(CacheResponseMixin, ModelViewSet):
 class ArticleViewSet(CacheResponseMixin, ModelViewSet):
     """文章"""
     serializer_class = ArticleCreateSerializer
-    queryset = Article.objects.all().order_by('-pub_time')
+    queryset = Article.objects.all().filter(status='p').order_by('-pub_time')
 
     def get_queryset(self):
         """

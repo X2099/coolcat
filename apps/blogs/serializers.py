@@ -37,7 +37,7 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('title', 'body', 'pub_time', 'author', 'category', 'tags')
+        fields = ('title', 'body', 'status', 'pub_time', 'author', 'category', 'tags')
 
 
 class AuthorSerializer(serializers.ModelSerializer):
