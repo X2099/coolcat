@@ -31,7 +31,7 @@ class TagViewSet(CacheResponseMixin, ModelViewSet):
 class ArticleViewSet(CacheResponseMixin, ModelViewSet):
     """文章"""
     serializer_class = ArticleCreateSerializer
-    queryset = Article.objects.all().filter(status='p').order_by('-pub_time')
+    queryset = Article.objects.all().order_by('-pub_time')
 
     def get_queryset(self):
         """
@@ -74,10 +74,15 @@ class ArticleViewSet(CacheResponseMixin, ModelViewSet):
     def list(self, request, *args, **kwargs):
         """文章列表"""
         author_id = request.query_params.get('author')
+        status = request.query_params.get('status')
         if author_id:
             queryset = self.get_queryset().filter(author_id=author_id)
         else:
             queryset = self.filter_queryset(self.get_queryset())
+        if status == 'd':
+            queryset = queryset.filter(status='d')
+        else:
+            queryset = queryset.filter(status='p')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
