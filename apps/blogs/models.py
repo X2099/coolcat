@@ -32,7 +32,7 @@ class Article(BaseModel):
                                verbose_name="作者")
     category = models.ForeignKey('Category', related_name='articles', on_delete=models.DO_NOTHING, verbose_name="所属分类")
     tags = models.ManyToManyField('Tag', related_name='articles', blank=True, verbose_name="标签")
-    # is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
 
     def __str__(self):
         return self.title

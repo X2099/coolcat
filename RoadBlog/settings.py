@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'users.apps.UsersConfig',
     'blogs.apps.BlogsConfig',
+    'operation.apps.OperationConfig',
 )
 
 MIDDLEWARE = [
