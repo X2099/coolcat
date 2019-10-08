@@ -32,6 +32,7 @@ class Article(BaseModel):
                                verbose_name="作者")
     category = models.ForeignKey('Category', related_name='articles', on_delete=models.DO_NOTHING, verbose_name="所属分类")
     tags = models.ManyToManyField('Tag', related_name='articles', blank=True, verbose_name="标签")
+    # is_delete = models.BooleanField(default=False, verbose_name="是否删除")
 
     def __str__(self):
         return self.title
@@ -47,7 +48,8 @@ class Category(BaseModel):
     文章分类
     """
     name = models.CharField(max_length=40, verbose_name="分类名称")
-    parent = models.ForeignKey(to='self', related_name='subs', null=True, blank=True, on_delete=models.CASCADE, verbose_name="父级分类")
+    parent = models.ForeignKey(to='self', related_name='subs', null=True, blank=True, on_delete=models.CASCADE,
+                               verbose_name="父级分类")
     owner = models.ForeignKey(User, related_name='categories', on_delete=models.CASCADE, verbose_name="所属作者")
 
     def __str__(self):

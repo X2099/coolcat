@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Article, Category, Tag
 from users.models import User
 
@@ -37,7 +38,7 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('title', 'body', 'status', 'pub_time', 'author', 'category', 'tags')
+        fields = ('title', 'body', 'status', 'pub_time', 'author', 'category', 'tags', 'status')
 
 
 class AuthorSerializer(serializers.ModelSerializer):

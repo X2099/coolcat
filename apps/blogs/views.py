@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
@@ -17,6 +18,9 @@ class CategoryViewSet(CacheResponseMixin, ModelViewSet):
     serializer_class = CategorySerializer
 
     def get_queryset(self):
+        """
+        获取数据查询集
+        """
         return Category.objects.filter(owner=self.request.user, parent=None)
 
 
@@ -25,6 +29,9 @@ class TagViewSet(CacheResponseMixin, ModelViewSet):
     serializer_class = TagSerializer
 
     def get_queryset(self):
+        """
+        获取数据查询集
+        """
         return Tag.objects.filter(owner=self.request.user)
 
 
@@ -71,16 +78,34 @@ class ArticleViewSet(CacheResponseMixin, ModelViewSet):
         else:
             return [permission() for permission in self.permission_classes]
 
+    def create(self, request, *args, **kwargs):
+        """
+        重写创建文章方法，添加pub_time字段数据
+        """
+        if request.data.get('status', 'p') == 'p':
+            request.data.update({'pub_time': timezone.now()})
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        """
+        重写更新文章方法，添加pub_time字段数据
+        """
+        if request.data.get('status', 'p') == 'p':
+            request.data.update({'pub_time': timezone.now()})
+        return super().update(request, *args, **kwargs)
+
     def list(self, request, *args, **kwargs):
-        """文章列表"""
-        author_id = request.query_params.get('author')
-        status = request.query_params.get('status')
+        """
+        文章列表
+        """
+        author_id = request.query_params.get('author', None)
+        article_status = request.query_params.get('status', None)
         if author_id:
-            queryset = self.get_queryset().filter(author_id=author_id)
+            queryset = self.queryset.filter(author_id=author_id)
         else:
             queryset = self.filter_queryset(self.get_queryset())
-        if status == 'd':
-            queryset = queryset.filter(status='d')
+        if article_status == 'd':
+            queryset = queryset.filter(status='d', author_id=author_id)
         else:
             queryset = queryset.filter(status='p')
         page = self.paginate_queryset(queryset)

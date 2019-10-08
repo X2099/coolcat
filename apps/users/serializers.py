@@ -27,6 +27,7 @@ class UserRegSerializer(serializers.ModelSerializer):
                                    help_text="邮箱")
 
     def validate_code(self, code):
+        """验证验证码"""
         email = self.initial_data.get('email')
         verify_code = cache.get(email)
         if verify_code:
@@ -38,13 +39,15 @@ class UserRegSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError("验证码已过期，请重新发送")
 
-    def velidate_password1(self, password1):
+    def validate_password1(self, password1):
+        """校验密码"""
         if password1 == self.initial_data.get('password2'):
             return password1
         else:
             raise serializers.ValidationError("两次密码不一致")
 
     def validate(self, attrs):
+        """删除非模型类字段数据"""
         del attrs['code']
         del attrs['password2']
         return attrs
@@ -54,6 +57,7 @@ class UserRegSerializer(serializers.ModelSerializer):
         fields = ['username', 'password1', 'password2', 'code', 'email']
 
     def create(self, validated_data):
+        """重写create方法，设置密码"""
         user = User.objects.create(username=validated_data['username'],
                                    password=make_password(validated_data['password1']),
                                    email=validated_data['email'])
