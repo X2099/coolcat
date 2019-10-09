@@ -1,4 +1,7 @@
+import uuid
+
 from django.utils import timezone
+from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
@@ -115,3 +118,11 @@ class ArticleViewSet(CacheResponseMixin, ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(methods=['post'], detail=False)
+    def upload(self, request):
+        image_data = request.data.get('cover')
+        print(image_data)
+        with open('static/images/001.jpeg', 'wb') as f:
+            f.write(image_data.read())
+        return Response({'msg': 'OK'})
