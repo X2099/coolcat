@@ -113,6 +113,8 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = ['static', ]  # 静态文件目录
+
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
