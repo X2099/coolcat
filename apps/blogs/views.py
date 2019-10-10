@@ -1,6 +1,7 @@
-import uuid
+import datetime
 
 from django.utils import timezone
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -121,8 +122,15 @@ class ArticleViewSet(CacheResponseMixin, ModelViewSet):
 
     @action(methods=['post'], detail=False)
     def upload(self, request):
-        image_data = request.data.get('cover')
-        print(image_data)
-        with open('static/images/001.jpeg', 'wb') as f:
-            f.write(image_data.read())
-        return Response({'msg': 'OK'})
+        file_data = request.data.get('cover')
+        file_suffix = file_data.name.split('.')[-1]
+        file_name = 'article/covers/' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + (
+                '%09d' % request.user.id) + '.' + file_suffix
+        try:
+            with open('static/' + file_name, 'wb') as f:
+                f.write(file_data.read())
+        except Exception as e:
+            print(e)
+            return Response({'msg': "上传图片失败"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        url = 'http://127.0.0.1:8000/static/' + file_name
+        return Response({'cover_url': url})
