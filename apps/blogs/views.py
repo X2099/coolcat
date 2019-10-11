@@ -1,5 +1,6 @@
 import datetime
 
+from PIL import Image
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import action
@@ -132,5 +133,5 @@ class ArticleViewSet(CacheResponseMixin, ModelViewSet):
         except Exception as e:
             print(e)
             return Response({'msg': "上传图片失败"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        url = 'http://127.0.0.1:8000/static/' + file_name
-        return Response({'cover_url': url})
+        cover_size = Image.open('static/' + file_name).size
+        return Response({'cover': file_name, 'width': cover_size[0], 'height': cover_size[1]})
