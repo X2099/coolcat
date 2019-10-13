@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
@@ -8,3 +10,5 @@ urlpatterns = [
     path('api/', include(('users.urls', 'users'), namespace='users')),
     path('api/', include(('blogs.urls', 'blogs'), namespace='articles')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

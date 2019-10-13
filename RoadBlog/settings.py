@@ -10,7 +10,7 @@ SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 # 跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
@@ -112,8 +112,10 @@ USE_L10N = True
 USE_TZ = False
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 静态文件目录
 
-STATICFILES_DIRS = ['static', ]  # 静态文件目录
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 AUTH_USER_MODEL = 'users.User'
 

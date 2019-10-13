@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework import serializers
 
 from .models import Article, Category, Tag
@@ -38,7 +40,15 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('title', 'body', 'status', 'pub_time', 'author', 'category', 'tags', 'status')
+        fields = ('title', 'body', 'status', 'pub_time', 'author', 'category', 'tags', 'status', 'cover_image')
+
+    def validate_cover_image(self, file):
+        """对上传的图片重命名"""
+        uid = self.context.get('request').user.id
+        file_suffix = file.name.split('.')[-1]
+        file_name = 'COVER' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + '%09d' % uid + '.' + file_suffix
+        file.name = file_name
+        return file
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -73,7 +83,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'pub_time', 'author', 'category', 'tags', 'update_time')
+        fields = ('id', 'title', 'pub_time', 'author', 'category', 'tags', 'update_time', 'cover_image')
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
@@ -84,4 +94,4 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('title', 'body', 'pub_time', 'author', 'category', 'tags', 'views')
+        fields = ('title', 'body', 'pub_time', 'author', 'category', 'tags', 'views', 'cover_image')
