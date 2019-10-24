@@ -1,6 +1,8 @@
 import datetime
+import os
 
 from PIL import Image
+from django.conf import settings
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import action
@@ -135,3 +137,16 @@ class ArticleViewSet(CacheResponseMixin, ModelViewSet):
             return Response({'msg': "上传图片失败"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         cover_size = Image.open('static/' + file_name).size
         return Response({'cover': file_name, 'width': cover_size[0], 'height': cover_size[1]})
+
+    @action(methods=['patch'], detail=True)
+    def remove(self, request, pk):
+        """
+        删除文章封面
+        """
+        article = self.get_object()
+        cover_name = article.cover_image.name
+        if cover_name:
+            article.cover_image = None
+            article.save()
+            os.remove(settings.MEDIA_ROOT + '/' + cover_name)
+        return Response({'msg': "封面已删除"})
