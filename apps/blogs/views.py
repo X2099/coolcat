@@ -125,28 +125,34 @@ class ArticleViewSet(CacheResponseMixin, ModelViewSet):
 
     @action(methods=['post'], detail=False)
     def upload(self, request):
-        file_data = request.data.get('cover')
+        file_data = request.data.get('image')
         file_suffix = file_data.name.split('.')[-1]
-        file_name = 'article/covers/' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + (
+        file_name = 'IMAGE' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + (
                 '%09d' % request.user.id) + '.' + file_suffix
         try:
-            with open('static/' + file_name, 'wb') as f:
+            with open('static/media/image/' + file_name, 'wb') as f:
                 f.write(file_data.read())
         except Exception as e:
             print(e)
             return Response({'msg': "上传图片失败"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        cover_size = Image.open('static/' + file_name).size
-        return Response({'cover': file_name, 'width': cover_size[0], 'height': cover_size[1]})
+        url = 'http://127.0.0.1:8000/static/media/image/' + file_name
+        return Response(url)
 
-    @action(methods=['patch'], detail=True)
-    def remove(self, request, pk):
+    @action(methods=['delete'], detail=False)
+    def remove(self, request):
         """
         删除文章封面
         """
-        article = self.get_object()
-        cover_name = article.cover_image.name
-        if cover_name:
-            article.cover_image = None
-            article.save()
-            os.remove(settings.MEDIA_ROOT + '/' + cover_name)
-        return Response({'msg': "封面已删除"})
+        article_id = request.query_params.get('article_id')
+        img_url = request.query_params.get('url')
+        if article_id:
+            article = Article.objects.get(id=article_id)
+            cover_name = article.cover_image.name
+            if cover_name:
+                article.cover_image = None
+                article.save()
+                os.remove(settings.MEDIA_ROOT + '/' + cover_name)
+        else:
+            image_name = img_url.split('/')[-1]
+            os.remove('static/media/image/' + image_name)
+        return Response({'msg': "图片已删除"})
