@@ -42,7 +42,7 @@ class TagViewSet(CacheResponseMixin, ModelViewSet):
         return Tag.objects.filter(owner=self.request.user)
 
 
-class ArticleViewSet(CacheResponseMixin, ModelViewSet):
+class ArticleViewSet(ModelViewSet):
     """文章"""
     serializer_class = ArticleCreateSerializer
     queryset = Article.objects.all().order_by('-pub_time')

@@ -44,10 +44,11 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
     def validate_cover_image(self, file):
         """对上传的图片重命名"""
-        uid = self.context.get('request').user.id
-        file_suffix = file.name.split('.')[-1]
-        file_name = 'COVER' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + '%09d' % uid + '.' + file_suffix
-        file.name = file_name
+        if file:
+            uid = self.context.get('request').user.id
+            file_suffix = file.name.split('.')[-1]
+            file_name = 'COVER' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + '%09d' % uid + '.' + file_suffix
+            file.name = file_name
         return file
 
 
