@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'RoadBlog.urls'
+ROOT_URLCONF = 'CatManBlog.urls'
 
 TEMPLATES = [
     {
@@ -62,7 +62,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'RoadBlog.wsgi.application'
+WSGI_APPLICATION = 'CatManBlog.wsgi.application'
 
 DATABASES = {
     'default': {
