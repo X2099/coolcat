@@ -1,5 +1,6 @@
 import datetime
 
+from django.utils import timezone
 from rest_framework import serializers
 
 from .models import Article, Category, Tag
@@ -42,8 +43,18 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
         model = Article
         fields = ('title', 'body', 'status', 'pub_time', 'author', 'category', 'tags', 'status', 'cover_image')
 
+    def validate(self, attrs):
+        """
+        添加pub_time字段数据
+        """
+        if attrs['status'] == 'p':
+            attrs['pub_time'] = timezone.now()
+        return attrs
+
     def validate_cover_image(self, file):
-        """对上传的图片重命名"""
+        """
+        对上传的图片重命名
+        """
         if file:
             uid = self.context.get('request').user.id
             file_suffix = file.name.split('.')[-1]

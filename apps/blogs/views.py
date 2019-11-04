@@ -85,22 +85,6 @@ class ArticleViewSet(ModelViewSet):
         else:
             return [permission() for permission in self.permission_classes]
 
-    def create(self, request, *args, **kwargs):
-        """
-        重写创建文章方法，添加pub_time字段数据
-        """
-        if request.data.get('status', 'p') == 'p':
-            request.data.update({'pub_time': timezone.now()})
-        return super().create(request, *args, **kwargs)
-
-    def update(self, request, *args, **kwargs):
-        """
-        重写更新文章方法，添加pub_time字段数据
-        """
-        if request.data.get('status', 'p') == 'p':
-            request.data.update({'pub_time': timezone.now()})
-        return super().update(request, *args, **kwargs)
-
     def list(self, request, *args, **kwargs):
         """
         文章列表
@@ -125,6 +109,9 @@ class ArticleViewSet(ModelViewSet):
 
     @action(methods=['post'], detail=False)
     def upload(self, request):
+        """
+        上传图片
+        """
         file_data = request.data.get('image')
         file_suffix = file_data.name.split('.')[-1]
         file_name = 'IMAGE' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + (
@@ -141,7 +128,7 @@ class ArticleViewSet(ModelViewSet):
     @action(methods=['delete'], detail=False)
     def remove(self, request):
         """
-        删除文章封面
+        删除图片
         """
         article_id = request.query_params.get('article_id')
         img_url = request.query_params.get('url')
