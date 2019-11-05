@@ -8,13 +8,14 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost:8080', '127.0.0.1:8080', 'www.imaginator.top']
 # 跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
-    'http://localhost:8080'
+    'http://localhost:8080',
+    'https://www.imaginator.top',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
