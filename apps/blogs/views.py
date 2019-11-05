@@ -1,9 +1,7 @@
 import datetime
 import os
 
-from PIL import Image
 from django.conf import settings
-from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
@@ -85,6 +83,16 @@ class ArticleViewSet(ModelViewSet):
         else:
             return [permission() for permission in self.permission_classes]
 
+    def get_serializer_context(self):
+        """
+        去掉上下文request
+        """
+        return {
+            # 'request': self.request,
+            'format': self.format_kwarg,
+            'view': self
+        }
+
     def list(self, request, *args, **kwargs):
         """
         文章列表
@@ -117,12 +125,12 @@ class ArticleViewSet(ModelViewSet):
         file_name = 'IMAGE' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + (
                 '%09d' % request.user.id) + '.' + file_suffix
         try:
-            with open('static/media/image/' + file_name, 'wb') as f:
+            with open('static/media/inner/' + file_name, 'wb') as f:
                 f.write(file_data.read())
         except Exception as e:
             print(e)
             return Response({'msg': "上传图片失败"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        url = 'http://127.0.0.1:8000/static/media/image/' + file_name
+        url = settings.STATIC_HTTP + '/image/inner/' + file_name
         return Response(url)
 
     @action(methods=['delete'], detail=False)
