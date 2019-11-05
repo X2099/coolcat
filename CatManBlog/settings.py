@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.imaginator.top']
 # 跨域请求白名单
@@ -133,7 +133,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',  # 自动生成接口文档
 }
-
 # DRF扩展
 REST_FRAMEWORK_EXTENSIONS = {
     # 缓存时间

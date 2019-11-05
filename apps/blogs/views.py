@@ -85,13 +85,16 @@ class ArticleViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         """
-        去掉上下文request
+        Extra context provided to the serializer class.
         """
-        return {
-            # 'request': self.request,
+        context = {
+            'request': self.request,
             'format': self.format_kwarg,
             'view': self
         }
+        if self.action == 'list' or self.action == 'retrieve':
+            context.pop('request')
+        return context
 
     def list(self, request, *args, **kwargs):
         """
