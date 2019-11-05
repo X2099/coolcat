@@ -133,7 +133,7 @@ class ArticleViewSet(ModelViewSet):
         except Exception as e:
             print(e)
             return Response({'msg': "上传图片失败"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        url = settings.STATIC_HTTP + '/image/inner/' + file_name
+        url = settings.STATIC_HTTP + 'image/inner/' + file_name
         return Response(url)
 
     @action(methods=['delete'], detail=False)
