@@ -152,5 +152,5 @@ class ArticleViewSet(ModelViewSet):
                 os.remove(settings.MEDIA_ROOT + '/' + cover_name)
         else:
             image_name = img_url.split('/')[-1]
-            os.remove('static/media/image/' + image_name)
+            os.remove('static/media/inner/' + image_name)
         return Response({'msg': "图片已删除"})
