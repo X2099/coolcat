@@ -9,6 +9,7 @@ urlpatterns = [
     path('docs', include_docs_urls("road博客", authentication_classes=[], permission_classes=[])),  # 接口文档
     path('api/', include(('users.urls', 'users'), namespace='users')),
     path('api/', include(('blogs.urls', 'blogs'), namespace='articles')),
+    path('api/', include(('operation.urls', 'blogs'), namespace='operation')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

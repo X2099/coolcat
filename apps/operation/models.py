@@ -20,7 +20,8 @@ class LeavingMessage(BaseModel):
     """留言"""
     body = models.TextField(verbose_name="留言内容")
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='leaving_msgs', verbose_name="作者")
-    parent = models.ForeignKey('self', related_name='sub_msgs', on_delete=models.CASCADE, verbose_name="上级留言")
+    parent = models.ForeignKey('self', related_name='sub_msgs', null=True, on_delete=models.CASCADE,
+                               verbose_name="上级留言")
     is_enable = models.BooleanField(default=True, verbose_name="是否显示")
 
 
