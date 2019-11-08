@@ -11,8 +11,15 @@ from operation.models import LeavingMessage
 class LeavingMsgSerializer(serializers.ModelSerializer):
     """留言序列化"""
 
-    author = serializers.StringRelatedField(label="作者姓名")
+    author_name = serializers.SerializerMethodField(label="作者姓名", read_only=True)
 
     class Meta:
         model = LeavingMessage
         fields = '__all__'
+
+    def get_author_name(self, instance):
+        """
+        获取作者姓名
+        :param instance:LeavingMessage实例
+        """
+        return instance.author.username
