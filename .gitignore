@@ -5,3 +5,6 @@ __pycache__/
 *.py[cod]
 *.jpg
 *.png
+*.gif
+*.jpeg
+*.bmp
