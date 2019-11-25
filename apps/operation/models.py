@@ -24,6 +24,11 @@ class LeavingMessage(BaseModel):
                                verbose_name="上级留言")
     is_enable = models.BooleanField(default=True, verbose_name="是否显示")
 
+    class Meta:
+        verbose_name = "留言"
+        verbose_name_plural = verbose_name
+        ordering = ['-create_time']
+
 
 class Comment(BaseModel):
     """评论"""
