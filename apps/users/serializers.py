@@ -10,6 +10,8 @@ User = get_user_model()
 class UserDetailSerializer(serializers.ModelSerializer):
     """用户详情序列化类"""
 
+    username = serializers.CharField(read_only=True)
+    email = serializers.EmailField(read_only=True)
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'mobile', 'birthday', 'gender']

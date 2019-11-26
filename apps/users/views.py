@@ -16,7 +16,8 @@ from .serializers import UserDetailSerializer, UserRegSerializer
 User = get_user_model()
 
 
-class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                      viewsets.GenericViewSet):
     """用户认证"""
     queryset = User.objects.all()
 
