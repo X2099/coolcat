@@ -12,9 +12,10 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     username = serializers.CharField(read_only=True)
     email = serializers.EmailField(read_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'mobile', 'birthday', 'gender']
+        fields = ['id', 'username', 'email', 'mobile', 'birthday', 'gender', 'avatar']
 
 
 class UserRegSerializer(serializers.ModelSerializer):

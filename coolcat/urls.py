@@ -6,7 +6,7 @@ from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('docs', include_docs_urls("road博客", authentication_classes=[], permission_classes=[])),  # 接口文档
+    path('docs', include_docs_urls("酷猫社区", authentication_classes=[], permission_classes=[])),  # 接口文档
     path('api/', include(('users.urls', 'users'), namespace='users')),
     path('api/', include(('blogs.urls', 'blogs'), namespace='articles')),
     path('api/', include(('operation.urls', 'blogs'), namespace='operation')),

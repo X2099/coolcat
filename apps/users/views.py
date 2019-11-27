@@ -1,3 +1,4 @@
+import os
 from random import choice
 import re
 
@@ -86,3 +87,27 @@ class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
                 return Response({'msg': "OK"})
         else:
             return Response({'msg': "缺少参数"}, status=status.HTTP_403_FORBIDDEN)
+
+    @action(methods=['patch'], detail=False)
+    def avatar(self, request):
+        """
+        上传头像
+        """
+        file_data = request.data.get('avatar')
+        file_suffix = file_data.name.split('.')[-1]
+        user = request.user
+        if user.avatar:
+            try:
+                os.remove('static/media/avatar/' + user.avatar)
+            except Exception as e:
+                print(e)
+        file_name = 'AVATAR' + ('%09d' % user.id) + '.' + file_suffix
+        try:
+            with open('static/media/avatar/' + file_name, 'wb') as f:
+                f.write(file_data.read())
+            user.avatar = 'image/avatar/' + file_name
+            user.save()
+        except Exception as e:
+            print(e)
+            return Response({'msg': "更新头像失败"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'msg': "更新头像成功"})

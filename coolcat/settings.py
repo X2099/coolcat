@@ -11,7 +11,7 @@ SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 # DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.imaginator.top']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '39.107.121.208']
 # 跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
@@ -116,8 +116,8 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 静态文件目录
 
-MEDIA_URL = 'image/cover/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/cover')
+MEDIA_URL = 'image/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
 
 STATIC_HTTP = 'https://www.imaginator.top/'
 
