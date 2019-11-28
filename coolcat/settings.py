@@ -120,7 +120,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 静态文件目录
 MEDIA_URL = 'image/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
 
-STATIC_HTTP = 'https://www.imaginator.top/'
+STATIC_HTTP = 'http://www.kumao.cool:8000/'
 
 AUTH_USER_MODEL = 'users.User'
 
