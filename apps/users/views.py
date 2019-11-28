@@ -2,7 +2,7 @@ import os
 from random import choice
 import re
 
-from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.conf import settings
@@ -96,7 +96,7 @@ class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
         file_data = request.data.get('avatar')
         file_suffix = file_data.name.split('.')[-1]
         user = request.user
-        if user.avatar:
+        if user.avatar and user.avatar != 'image/avatar/default-avatar.jpg':
             try:
                 os.remove('static/media/avatar/' + user.avatar)
             except Exception as e:

@@ -1,4 +1,5 @@
 import datetime
+import logging
 import os
 import sys
 
@@ -11,7 +12,7 @@ SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 # DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '39.107.121.208']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '39.107.121.208', 'www.kumao.cool']
 # 跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
@@ -153,3 +154,79 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'moonpython@163.com'
 EMAIL_HOST_PASSWORD = 'L729123265'
 DEFAULT_FROM_EMAIL = 'road博客<moonpython@163.com>'
+
+# 日志配置
+LOGGING = {
+    'version': 1,  # 版本
+    'disable_existing_loggers': True,  # 是否禁用已经存在的日志器
+    'formatters': {  # 打印的日志格式
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s]'
+                      ' [%(levelname)s]- %(message)s'},
+        'simple': {
+            'format': '%(levelname)s %(module)s %(created)s %(message)s'
+        }
+    },
+    'filters': {
+    },
+    'handlers': {  # 用来定义具体处理日志的方式（可定义多种）
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'default': {
+            'level': 'INFO',
+            # 日志文件指定为5M，超过5M重新命名，然后写入新的日志文件
+            'class': 'logging.handlers.RotatingFileHandler',
+            # 日志输出文件地址
+            'filename': os.path.join(BASE_DIR, 'logs/coolcat.log'),
+            'maxBytes': 1024 * 1024 * 5,  # 文件大小
+            'backupCount': 5,  # 备份份数
+            'formatter': 'standard',  # 使用哪种formatters日志格式
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/coolcat.log'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/coolcat.log'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default', 'console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'sourceDns.webdns.views': {
+            'handlers': ['default', 'error'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'sourceDns.webdns.util': {
+            'handlers': ['error'],
+            'level': 'ERROR',
+            'propagate': True
+        }
+    }
+}

@@ -9,3 +9,4 @@ __pycache__/
 *.jpeg
 *.bmp
 !/static/media/avatar/default-avatar.jpg
+*.log
