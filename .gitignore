@@ -10,3 +10,4 @@ __pycache__/
 *.bmp
 !/static/media/avatar/default-avatar.jpg
 *.log
+*.pid
