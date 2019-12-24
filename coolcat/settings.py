@@ -17,7 +17,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '39.107.121.208', 'www.kumao.cool']
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
     'http://localhost:8080',
-    'http://www.kumao.cool',
+    'https://www.kumao.cool',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
