@@ -65,7 +65,7 @@ class Tag(BaseModel):
     """
     文章标签
     """
-    name = models.CharField(max_length=40, unique=True, verbose_name="标签名称")
+    name = models.CharField(max_length=40, verbose_name="标签名称")
     owner = models.ForeignKey(User, related_name='tags', on_delete=models.CASCADE, verbose_name="所属作者")
 
     def __str__(self):
@@ -75,3 +75,4 @@ class Tag(BaseModel):
         verbose_name = "文章标签"
         verbose_name_plural = verbose_name
         ordering = ['name']
+        unique_together = ('name', 'owner')
