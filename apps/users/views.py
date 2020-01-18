@@ -57,7 +57,7 @@ class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
         code = ''.join(code)
         # 发送邮件验证码
         try:
-            result = send_mail(subject="road博客验证码",
+            result = send_mail(subject="酷猫社区验证码",
                                message=f"您的验证码是：{code}",
                                from_email=settings.DEFAULT_FROM_EMAIL,
                                recipient_list=[to_email])
@@ -81,7 +81,7 @@ class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
             else:
                 return Response({'msg': "OK"})
         elif email:
-            if User.objects.filter(email=email).exists():
+            if User.objects.filter(email__iexact=email).exists():
                 return Response({'msg': "该邮箱已经注册"}, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response({'msg': "OK"})
