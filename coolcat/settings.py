@@ -118,7 +118,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 静态文件目录
 
 MEDIA_URL = 'image/cover/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/cover')
 
 STATIC_HTTP = 'http://www.kumao.cool:8000/'
 
