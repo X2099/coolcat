@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework_extensions.cache.mixins import CacheResponseMixin
+# from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from .models import Article, Category, Tag
 from .serializers import (
@@ -18,7 +18,7 @@ from .serializers import (
 )
 
 
-class CategoryViewSet(CacheResponseMixin, ModelViewSet):
+class CategoryViewSet(ModelViewSet):
     """文章分类"""
     serializer_class = CategorySerializer
 
@@ -29,7 +29,7 @@ class CategoryViewSet(CacheResponseMixin, ModelViewSet):
         return Category.objects.filter(owner=self.request.user, parent=None)
 
 
-class TagViewSet(CacheResponseMixin, ModelViewSet):
+class TagViewSet(ModelViewSet):
     """标签"""
     serializer_class = TagSerializer
 
