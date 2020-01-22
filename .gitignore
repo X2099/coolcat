@@ -11,3 +11,4 @@ __pycache__/
 !/static/media/avatar/default-avatar.jpg
 *.log
 *.pid
+migrations/

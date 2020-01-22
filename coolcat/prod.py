@@ -9,8 +9,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 
-# DEBUG = False
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '39.107.121.208', 'www.kumao.cool']
 # 跨域请求白名单
@@ -70,7 +69,7 @@ WSGI_APPLICATION = 'coolcat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'road',
+        'NAME': 'coolcat',
         'USER': 'moon',
         'PASSWORD': 'identified',
         'HOST': '39.107.121.208',
