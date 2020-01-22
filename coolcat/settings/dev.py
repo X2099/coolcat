@@ -1,9 +1,8 @@
 import datetime
-import logging
 import os
 import sys
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # 把apps目录加入python导包路径
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
