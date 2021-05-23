@@ -11,7 +11,7 @@ SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 # DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '39.107.121.208', 'www.kumao.cool']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '8.140.34.152', 'www.kumao.cool']
 # 跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
@@ -69,10 +69,10 @@ WSGI_APPLICATION = 'coolcat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'road',
+        'NAME': 'coolcat',
         'USER': 'moon',
         'PASSWORD': 'identified',
-        'HOST': '39.107.121.208',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
     }
 }
@@ -81,7 +81,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://:foobared@39.107.121.208:6379/1',
+        'LOCATION': 'redis://:foobared@127.0.0.1:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }

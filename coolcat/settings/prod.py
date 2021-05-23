@@ -10,7 +10,7 @@ SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '39.107.121.208', 'www.kumao.cool']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '8.140.34.152', 'www.kumao.cool']
 # 跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
@@ -71,7 +71,7 @@ DATABASES = {
         'NAME': 'coolcat',
         'USER': 'moon',
         'PASSWORD': 'identified',
-        'HOST': '39.107.121.208',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
     }
 }
