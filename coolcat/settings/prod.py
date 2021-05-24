@@ -10,12 +10,13 @@ SECRET_KEY = 'f7b-$j#jwgos7j!zl80vp@t@vk#$_!vg9+i$r%6@!1-tp+rh%('
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '8.140.34.152', 'www.kumao.cool']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '8.140.34.152', 'www.kumao.cool', 'kumao.cool']
 # 跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
     'http://localhost:8080',
     'https://www.kumao.cool',
+    'https://kumao.cool'
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
@@ -80,7 +81,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://:foobared@39.107.121.208:6379/1',
+        'LOCATION': 'redis://:foobared@127.0.0.1:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -115,8 +116,8 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 静态文件目录
 
-MEDIA_URL = 'image/cover/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/cover')
+MEDIA_URL = 'image/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 STATIC_HTTP = 'https://www.kumao.cool'
 
@@ -174,7 +175,7 @@ LOGGING = {
             'include_html': True,
         },
         'default': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             # 日志文件指定为5M，超过5M重新命名，然后写入新的日志文件
             'class': 'logging.handlers.RotatingFileHandler',
             # 日志输出文件地址
@@ -209,12 +210,12 @@ LOGGING = {
         'django': {
             'handlers': ['default', 'console'],
             'level': 'DEBUG',
-            'propagate': False
+            'propagate': True
         },
         'django.request': {
             'handlers': ['request_handler'],
             'level': 'DEBUG',
-            'propagate': False,
+            'propagate': True
         },
         'sourceDns.webdns.views': {
             'handlers': ['default', 'error'],
@@ -222,7 +223,7 @@ LOGGING = {
             'propagate': True
         },
         'sourceDns.webdns.util': {
-            'handlers': ['error'],
+            'handlers': ['default', 'error'],
             'level': 'ERROR',
             'propagate': True
         }
