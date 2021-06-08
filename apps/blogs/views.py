@@ -43,7 +43,7 @@ class TagViewSet(ModelViewSet):
 class ArticleViewSet(ModelViewSet):
     """文章"""
     serializer_class = ArticleCreateSerializer
-    queryset = Article.objects.order_by('-pub_time')
+    queryset = Article.objects.order_by('title', '-pub_time')
 
     def get_queryset(self):
         """
