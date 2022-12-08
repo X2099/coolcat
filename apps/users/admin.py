@@ -1,9 +1,9 @@
 from django.contrib import admin
 from .models import User
 
-admin.site.site_header = "RoadBlog管理后台"
-admin.site.site_title = "RoadBlog"
-admin.site.index_title = "欢迎访问RoadBlog后台系统"
+admin.site.site_header = "CoolCat管理后台"
+admin.site.site_title = "CoolCat"
+admin.site.index_title = "欢迎访问CoolCat后台系统"
 
 
 @admin.register(User)

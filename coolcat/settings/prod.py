@@ -18,7 +18,8 @@ CORS_ORIGIN_WHITELIST = (
     'https://www.kumao.cool',
     'https://kumao.cool'
 )
-CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+
+CORS_ALLOW_CREDENTIALS = True  # 允许跨域携带cookie
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -114,7 +115,8 @@ USE_L10N = True
 USE_TZ = False
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 静态文件目录
+STATIC_ROOT = os.path.join(BASE_DIR,  'coolcat/static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'coolcat/static')]  # 静态文件目录
 
 MEDIA_URL = 'image/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
@@ -125,9 +127,9 @@ AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # jwt认证
-        # 'rest_framework.authentication.BasicAuthentication',  # 基本认证
-        'rest_framework.authentication.SessionAuthentication',  # session认证
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # 第三方的jwt认证
+        # 'rest_framework.authentication.BasicAuthentication',  # 框架自带的认证
+        'rest_framework.authentication.SessionAuthentication',  # session认证，使admin后台可用
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -142,6 +144,7 @@ REST_FRAMEWORK_EXTENSIONS = {
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),  # jwt有效期
+    # 'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=10),  # jwt有效期
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler'  # 获取jwt载荷数据
 }
 
