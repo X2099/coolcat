@@ -3,9 +3,7 @@ from random import choice
 import re
 
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
 from django.core.cache import cache
-from django.conf import settings
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.response import Response
@@ -13,6 +11,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 from .serializers import UserDetailSerializer, UserRegSerializer
+from celery_tasks.send_email.tasks import send_code
 
 User = get_user_model()
 
@@ -47,6 +46,10 @@ class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
 
         if not re.match(r"^[a-z0-9][\w.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$", to_email):
             return Response({'msg': "参数email格式错误"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(email__iexact=to_email).exists():
+            return Response({'msg': "该邮箱已经注册"}, status=status.HTTP_400_BAD_REQUEST)
+
         if cache.get(to_email):
             return Response({'msg': "请求太频繁，请稍后再试"}, status=status.HTTP_403_FORBIDDEN)
         # 随机生成验证码
@@ -57,16 +60,10 @@ class UserAuthViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
         code = ''.join(code)
         # 发送邮件验证码
         try:
-            result = send_mail(subject="酷猫社区验证码",
-                               message=f"您的验证码是：{code}",
-                               from_email=settings.DEFAULT_FROM_EMAIL,
-                               recipient_list=[to_email])
-            if result == 1:
-                # 把验证码存入redis
-                cache.set(to_email, code, 60 * 10)
-                return Response({'msg': "验证码已发送到您的邮箱"})
-            else:
-                return Response({'msg': "验证码发送失败"}, status=status.HTTP_400_BAD_REQUEST)
+            send_code.delay(code, to_email)
+            # 把验证码存入redis
+            cache.set(to_email, code, 60 * 10)
+            return Response({'msg': "验证码已发送到您的邮箱"})
         except Exception as e:
             return Response({'msg': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

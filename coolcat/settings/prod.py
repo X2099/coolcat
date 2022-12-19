@@ -115,8 +115,8 @@ USE_L10N = True
 USE_TZ = False
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,  'coolcat/static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'coolcat/static')]  # 静态文件目录
+STATIC_ROOT = os.path.join(BASE_DIR, 'coolcat/static/')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'coolcat/static/')]  # 静态文件目录
 
 MEDIA_URL = 'image/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
@@ -154,8 +154,12 @@ EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'moonpython@163.com'
-EMAIL_HOST_PASSWORD = 'L729123265'
+EMAIL_HOST_PASSWORD = 'JQTUDYQRVSDEWPTR'
 DEFAULT_FROM_EMAIL = '酷猫社区<moonpython@163.com>'
+
+# celery配置
+CELERY_BROKER_URL = 'amqp://rabbitmq_user:password000@127.0.0.1:5672'
+CELERY_RESULT_BACKEND = 'redis://:foobared@127.0.0.1:6379/5'
 
 # 日志配置
 LOGGING = {
